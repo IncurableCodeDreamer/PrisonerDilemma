@@ -15,7 +15,7 @@ z=1;
     for i=1:size(nowaPopulacjaKrzyzowanie,1)
         for b=1:stopienMutacji
         nrMutujacegoGenu = randi(liczbaTur);
-        nowyGen = randi(4);
+        nowyGen = randi(2);
         nowaPopulacjaMutacja(i,:) = nowaPopulacjaKrzyzowanie(i,:);
         nowaPopulacjaMutacja(i,nrMutujacegoGenu) = nowyGen;
         end
