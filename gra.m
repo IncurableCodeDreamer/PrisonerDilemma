@@ -1,4 +1,4 @@
-function [decyzje, macierzWyplatIter]  = gra(nowaPopulacja)
+function [paraDecyzjiGra, decyzje, macierzWyplatIter]  = gra(nowaPopulacja)
     
     [m,n] = size(nowaPopulacja);
     if(mod(m,2)~= 0)
@@ -79,8 +79,18 @@ function [decyzje, macierzWyplatIter]  = gra(nowaPopulacja)
          macierzWyplatIteracje(i,1) = wyp1;
          macierzWyplatIteracje(i,2) = wyp2;
          
+         result = strcat(num2str(nowaDecyzjaG1), num2str(nowaDecyzjaG2));
+         result = str2num(result);
+         paraDecyzji(i,1) = result;
+         
          %macierzWyplatIter(i,:) = macierzWyplatIteracje'
     end
+    paraDecyzjiGra = paraDecyzji;
     decyzje = macierzDecyzji;
     macierzWyplatIter= macierzWyplatIteracje;
+    
+    paraDecyzjiGra( ~any(paraDecyzjiGra,2), : ) = [];  %rows
+    decyzje( ~any(decyzje,2), : ) = [];
+    macierzWyplatIter( ~any(macierzWyplatIter,2), : ) = [];  %rows
+    
 end

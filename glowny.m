@@ -70,7 +70,7 @@ for h=1:iloscIteracji
     odchylenie = std(macierzWyplatGraczy,1,2); %std dla kazdnego gracza
     srednie = mean(macierzWyplatGraczy,2);
 
- %wykresy
+  %wykresy
 %     figure;    
 %     subplot(3,1,1)
 %     histfit(macierzWyplatGraczy(:));
@@ -140,9 +140,12 @@ for h=1:iloscIteracji
     macierzDecyzji = [];
     macierzWyplatIteracje = [];
     for b=1:liczbaTur
-    [macierzDecyzjiGra, macierzWyplatGra] = gra(nowaPopulacja);
+    [paraDecyzjiGra, macierzDecyzjiGra, macierzWyplatGra] = gra(nowaPopulacja);
     macierzDecyzji = [macierzDecyzji; macierzDecyzjiGra'];
     macierzWyplatIteracje = [macierzWyplatIteracje; macierzWyplatGra'];
+    modaGraIter=mode(paraDecyzjiGra);
+    macierzMody(h,b) = modaGraIter;
     end
 
 end
+modaCalejGry = mode(mode(macierzMody))
