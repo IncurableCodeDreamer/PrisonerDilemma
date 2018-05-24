@@ -3,29 +3,21 @@ clc; clear all; close all;
 %1 wspol
 %2 zdrada
 
-%mozliwosci
-mozliwosci = [1 2 3 4];
-      
-%mapa kolorow
-colory = [ 0 0 1   
-           0 1 0
-           1 1 0
-           1 0 0];
-   
 %dane
-iloscIteracji = 20;
-liczbaGraczy = 100; %parzysta!!
+iloscIteracji = 15;
+liczbaGraczy = 20; 
 %liczbaMaxGraczyDoRozrodu = 4; -> mozna tez okreslic
-wartoscMinFuncjiPrzystosowania = 0.1;
+wartoscMinFuncjiPrzystosowania = 0.2;
 pktWyboruKrzyzowanie = 5; %bit
 stopienMutacji = 3; %ile genow zmutuje
-liczbaTur = 70;
+liczbaTur = 10;
 zaplataZdrada = 5;
 zaplataWspolpraca = 3;
 zaplataPodwojnaZdrada = 1;
 
 %macierz zaplat
 macierzZaplat = zeros(2,2);
+macierzSrednich = zeros(iloscIteracji,1);
 macierzZaplat(1,1) = zaplataWspolpraca;
 macierzZaplat(2,1) = zaplataZdrada;
 macierzZaplat(2,2) = zaplataPodwojnaZdrada;
@@ -63,12 +55,14 @@ for h=1:iloscIteracji
     end
     
 %obliczanie odchylenia std, jesli: 
-%std=srednia -> 1 partner
-%std=2*std + srednia -> 2 partnerow
-%std= srednia - std -> 0 partnerow
+%srednia=sredniaGlobalna -> 1 partner
+%srednia=stala + sredniaGlobalna -> 2 partnerow
+%srednia= sredniaGlobalna - srednia -> 0 partnerow
     sredniaGlobalna = mean(mean(macierzWyplatGraczy,2)) %sr wszystkich graczy
     odchylenie = std(macierzWyplatGraczy,1,2); %std dla kazdnego gracza
     srednie = mean(macierzWyplatGraczy,2);
+
+    macierzSrednich(h,1)=sredniaGlobalna;
 
   %wykresy
 %     figure;    
@@ -129,14 +123,20 @@ for h=1:iloscIteracji
     figure;
     subplot(2,1,1)
     plot(srednie,'r*-');
-    title(['Srednie wyplaty graczy w iteracji ->', num2str(h)]); 
+    title(['¦rednie wyplaty graczy w iteracji ->', num2str(h)]);
+    xlabel('numer gracza');
+    ylabel('¶rednia wyp³ata');
     hline = refline([0 sredniaGlobalna]);
+    legend('¶rednia wyp³ata gracza','¶rednia ca³ej populacji');
     subplot(2,1,2)
     plot(srednie,'k*-');
     title(['Zakwalifikowani gracze do podwojnego rozrodu w iteracji ->', num2str(h)]);
+    xlabel('numer gracza');
+    ylabel('¶rednia wyp³ata');
     hline = refline([0 (wartoscMinFuncjiPrzystosowania+sredniaGlobalna)]);
+    legend('¶rednia wyp³ata gracza','¶rednia ca³ej populacji + sta³a');
     
-    % gra nowa populacja
+    %gra nowa populacja
     macierzDecyzji = [];
     macierzWyplatIteracje = [];
     for b=1:liczbaTur
@@ -149,3 +149,8 @@ for h=1:iloscIteracji
 
 end
 modaCalejGry = mode(mode(macierzMody))
+figure;
+plot(1:1:iloscIteracji,macierzSrednich,'b*-');
+title('¦rednie wszystkich graczy podczas ca³ej rozgrywki');
+xlabel('iteracja');
+ylabel('¶rednia wyp³at');

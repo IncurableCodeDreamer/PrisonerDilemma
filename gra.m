@@ -66,11 +66,13 @@ function [paraDecyzjiGra, decyzje, macierzWyplatIter]  = gra(nowaPopulacja)
          ostDecyzjeG1 =[para(2,n-2) para(2,n-1) para(2,n)];
          ostDecyzjeG2 =[para(1,n-2) para(1,n-1) para(1,n)];
          
-         nowaDecyzjaG1 = para(2,size(para,1)-1); %tylko ostatnia decyzja
-         nowaDecyzjaG2 = para(1,size(para,1)-1);
-         %nowaDecyzjaG1 = datasample(ostDecyzjeG2,1); %random z 3 ostatnich
-         %decyzji
-         %nowaDecyzjaG2 = datasample(ostDecyzjeG1,1);
+         %tylko ostatnia decyzja
+         %nowaDecyzjaG1 = para(2,size(para,1)-1); 
+         %nowaDecyzjaG2 = para(1,size(para,1)-1);
+         
+         %random z 3 ostatnich decyzji
+         nowaDecyzjaG1 = datasample(ostDecyzjeG2,1); 
+         nowaDecyzjaG2 = datasample(ostDecyzjeG1,1);
          
          macierzDecyzji(i,1) =  nowaDecyzjaG1;
          macierzDecyzji(i,2) =  nowaDecyzjaG2;
@@ -87,10 +89,9 @@ function [paraDecyzjiGra, decyzje, macierzWyplatIter]  = gra(nowaPopulacja)
     end
     paraDecyzjiGra = paraDecyzji;
     decyzje = macierzDecyzji;
-    macierzWyplatIter= macierzWyplatIteracje;
+    macierzWyplatIter = macierzWyplatIteracje;
     
-    paraDecyzjiGra( ~any(paraDecyzjiGra,2), : ) = [];  %rows
+    paraDecyzjiGra( ~any(paraDecyzjiGra,2), : ) = [];
     decyzje( ~any(decyzje,2), : ) = [];
-    macierzWyplatIter( ~any(macierzWyplatIter,2), : ) = [];  %rows
-    
+    macierzWyplatIter( ~any(macierzWyplatIter,2), : ) = [];
 end
